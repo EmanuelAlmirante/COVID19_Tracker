@@ -1,2 +1,3 @@
-# COVID19-Tracker
+# COVID19 Tracker
+
 A Python project to fetch the statistics about COVID19 all around the world.
