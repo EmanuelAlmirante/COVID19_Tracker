@@ -148,3 +148,26 @@ Return:
     {
       "message": "Record was deleted successfully!"
     }
+
+**Get information about a country from https://www.worldometers.info/coronavirus/** - **GET** localhost:8080/api/covidtracker/country/{country}
+
+URL:  
+	
+    localhost:8080/api/covidtracker/country/Portugal
+    
+Body:
+
+    empty
+
+Return:
+
+    {
+        "country": "Portugal",
+        "total_cases": "37,336",
+        "new_cases": "+300",
+        "total_deaths": "1,522 ",
+        "new_deaths": "+2",
+        "total_recovered": "23,212",
+        "active_cases": "12,602",
+        "day": "16/06/2020"
+    }
