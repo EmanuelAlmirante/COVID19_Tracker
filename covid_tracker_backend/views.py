@@ -1,19 +1,16 @@
-from django.shortcuts import render
+import json
 from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser
 from rest_framework import status
-
-from covid_tracker_backend.models import COVIDData
-from covid_tracker_backend.serializers import COVIDSerializer
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 
 from covid_tracker_backend import scraper
+from covid_tracker_backend.models import COVIDData
+from covid_tracker_backend.serializers import COVIDSerializer
 
 
 @api_view(['GET', 'POST'])
 def data_list(request):
-    scraper.webscraper('Portugal')
-
     # GET list of countries, POST data about a new country
     if request.method == 'GET':
         countries = COVIDData.objects.all()
@@ -56,7 +53,16 @@ def country_details(request, pk):
 
     elif request.method == 'DELETE':
         country.delete()
-        return JsonResponse({'message': 'Country was deleted successfully!'}, status = status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'message': 'Record was deleted successfully!'}, status = status.HTTP_204_NO_CONTENT)
 
-# @api_view(['GET'])
-# def country_data(request, country):
+
+@api_view(['GET'])
+def country_data(request, country):
+    country_info = scraper.webscraper(country)
+
+    return_json = json.loads(country_info)
+
+    if country_info is not None:
+        return JsonResponse(return_json)
+
+    return JsonResponse({'message': 'The country does not exist'}, status = status.HTTP_404_NOT_FOUND)
